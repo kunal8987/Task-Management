@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config()
 
+//* CONNECTION FUNCTION TO CONNECT THE MONGODB DATABASE
 let connection = async () => {
   try {
     await mongoose.connect(process.env.DATABASE_URL);
