@@ -52,11 +52,9 @@ const registerUser = async (req, res) => {
   }
 };
 
-
-//* FUNCTION TO LOGIN THE USER 
+//* FUNCTION TO LOGIN THE USER
 const loginUser = async (req, res) => {
   try {
-
     //* GETTING DATA FROM REQUEST BODY
     let { email, password } = req.body;
 
@@ -77,10 +75,10 @@ const loginUser = async (req, res) => {
         .send({ success: false, message: "User Not Registered Wrong Email!" });
     }
 
-    //* IF AVAILABLE THEN MATCH THE HASH PASSWORD 
+    //* IF AVAILABLE THEN MATCH THE HASH PASSWORD
     let matchUser = await passwordCompair(password, oldUser.password);
 
-    //*IF PASSWORD NOT MATCH 
+    //*IF PASSWORD NOT MATCH
     if (!matchUser) {
       return res
         .status(404)
@@ -113,4 +111,29 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+//* FUNCTION TO GET ALL USER
+const getUser = async (req, res) => {
+  try {
+    //* GETTING ALL USER IN DATABASE
+    let user = await UserModel.find();
+
+    //* LOOP THE USER ARRAY TO HIDE THE PASSWORD
+    user.forEach((user) => {
+      user.password = undefined;
+    });
+
+    //*RESPONSE SENDING
+    return res
+      .status(200)
+      .send({ success: true, count: user.length, massage: "All Users", user });
+  } catch (error) {
+    //! HANDLING THE ERROR
+    return res.status(500).send({
+      success: false,
+      massage: "Error From Login User Controller ",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUser };
