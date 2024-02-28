@@ -1,7 +1,9 @@
 const UserModel = require("../Model/user.model");
-const { passwordHashed } = require("../Utility/core");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+const { passwordHashed, passwordCompair } = require("../Utility/core");
 
-
+dotenv.config();
 
 //* FUNCTION TO REGISTERED THE NEW USER TO DATABASE
 const registerUser = async (req, res) => {
@@ -18,11 +20,10 @@ const registerUser = async (req, res) => {
 
     //* FINDING THE EXISTING USER
     let oldUser = await UserModel.findOne({ email });
-    oldUser.password = undefined;
     if (oldUser) {
       return res
         .status(200)
-        .send({ success: true, message: "User Already Registered", oldUser });
+        .send({ success: true, message: "User Already Registered" });
     }
 
     //* HASHING THE PASSWORD
@@ -51,4 +52,65 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+
+//* FUNCTION TO LOGIN THE USER 
+const loginUser = async (req, res) => {
+  try {
+
+    //* GETTING DATA FROM REQUEST BODY
+    let { email, password } = req.body;
+
+    //* VALIDATE THE EMAIL AND PASSWORD
+    if (!email || !password) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Please Enter Your Details" });
+    }
+
+    //* FINDING THE USER IN DATABASE THROUGH EMAIL
+    let oldUser = await UserModel.findOne({ email });
+
+    //* IF EMAIL IS NOT AVAILABLE
+    if (!oldUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "User Not Registered Wrong Email!" });
+    }
+
+    //* IF AVAILABLE THEN MATCH THE HASH PASSWORD 
+    let matchUser = await passwordCompair(password, oldUser.password);
+
+    //*IF PASSWORD NOT MATCH 
+    if (!matchUser) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Wrong Password" });
+    }
+
+    //* GENERATING THE TOKEN AND SENDING RESPONSE
+    let token = await jwt.sign(
+      { _id: oldUser._id },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "2d",
+      }
+    );
+
+    oldUser.password = undefined;
+    return res.status(200).send({
+      success: true,
+      massage: "User Login Successfully",
+      token: token,
+      oldUser,
+    });
+  } catch (error) {
+    //! HANDLING THE ERROR
+    return res.status(500).send({
+      success: false,
+      massage: "Error From Login User Controller ",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser };
