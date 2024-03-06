@@ -1,4 +1,5 @@
 
+import Dropdown from './component/DropDown';
 import Navbar from './component/Navbar';
 import AllRoutes from './utiles/AllRoutes';
 
@@ -7,6 +8,7 @@ function App() {
    <>
    <Navbar/>
    <AllRoutes/>
+   {/* <Dropdown/> */}
    </>
   );
 }
