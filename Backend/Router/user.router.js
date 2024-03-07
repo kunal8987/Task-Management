@@ -4,6 +4,7 @@ const {
   loginUser,
   getUser,
 } = require("../Controller/user.controller");
+const { protector } = require("../Middleware/Auth.middleware");
 
 //* CREATE USER ROUTER FROM EXPRESS ROUTER
 let userRouter = express.Router();
@@ -15,6 +16,6 @@ userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 
 //* GET ALL USER REQUEST
-userRouter.get("/getAll", getUser);
+userRouter.get("/getAll", protector, getUser);
 
 module.exports = { userRouter };
