@@ -1,5 +1,3 @@
-
-
 const mongoose = require("mongoose");
 
 //* Define Task Schema
@@ -29,6 +27,10 @@ const TaskSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    username: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true, versionKey: false }

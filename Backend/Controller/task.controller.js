@@ -4,7 +4,8 @@ const TaskModel = require("../Model/task.model");
 const createTask = async (req, res) => {
   try {
     //* GETTING DATA FROM REQUEST BODY
-    let { title, description, dueDate, priority, userId, completed } = req.body;
+    let { title, description, dueDate, priority, userId, completed, username } =
+      req.body;
 
     //* VALIDATE THE DATA
     if (!title || !description || !dueDate) {
@@ -21,6 +22,7 @@ const createTask = async (req, res) => {
       priority,
       userId,
       completed,
+      username,
     });
 
     //* SAVING A NEW TASK

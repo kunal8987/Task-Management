@@ -12,6 +12,6 @@ taskRouter = express.Router();
 taskRouter.post("/create/new", protector, createTask);
 taskRouter.get("/get/task", protector, getAllTasks);
 taskRouter.put("/update/task/:id", protector, updateTaskList);
-taskRouter.put("/delete/task/:id", protector, deleteTaskList);
+taskRouter.delete("/delete/task/:id", protector, deleteTaskList);
 
 module.exports = { taskRouter };

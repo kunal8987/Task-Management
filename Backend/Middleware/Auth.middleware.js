@@ -10,7 +10,8 @@ const protector = async (req, res, next) => {
       req.headers.authorization,
       process.env.JWT_SECRET_KEY
     );
-    req._id = decode._id;
+    req.body.userId = decode.userId;
+    req.body.username = decode.username;
     //*FURTHER PROCESS THROUGH NEXT
     next();
   } catch (error) {

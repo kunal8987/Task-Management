@@ -86,8 +86,8 @@ const loginUser = async (req, res) => {
     }
 
     //* GENERATING THE TOKEN AND SENDING RESPONSE
-    let token = await jwt.sign(
-      { _id: oldUser._id },
+    let token = jwt.sign(
+      { userId: oldUser._id, username: oldUser.username },
       process.env.JWT_SECRET_KEY,
       {
         expiresIn: "2d",
