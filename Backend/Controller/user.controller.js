@@ -38,10 +38,10 @@ const registerUser = async (req, res) => {
 
     //* SAVING THE NEW USER TO DATABASE
     newUser.save();
-    newUser.password = undefined;
+    // newUser.password = undefined;
     return res
       .status(200)
-      .send({ success: true, message: "New User Has Been Created", newUser });
+      .send({ success: true, message: "New User Has Been Created" });
   } catch (error) {
     //! HANDLING THE ERROR
     return res.status(500).send({

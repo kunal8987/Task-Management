@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../Asset/Logo.jpeg";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../Redux/UserAuth/action";
 const SignUp = () => {
   //* CREATE THE INITIAL STATE FOR FORM
   const initialState = {
@@ -12,6 +14,8 @@ const SignUp = () => {
 
   //* CREATE THE FORM STATE
   const [fromState, setFormState] = useState(initialState);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //* FUNCTION TO CHANGE THE VALUE OF INPUT BOX
   const handleChange = (e) => {
@@ -19,7 +23,25 @@ const SignUp = () => {
     setFormState({ ...fromState, [id]: value });
   };
 
-  console.log(fromState);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      fromState.username === "" ||
+      fromState.email === "" ||
+      fromState.password === ""
+    ) {
+      alert("All Fields Are Required");
+    } else if (fromState.password.length < 8) {
+      alert("Password Must Be At Least 8 Characters");
+    } else {
+      dispatch(registerUser(fromState));
+      setFormState(initialState);
+      // navigate("/sign-in");
+    }
+    console.log(fromState);
+  };
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -40,7 +62,7 @@ const SignUp = () => {
               Log In
             </Link>
           </p>
-          <form className="mt-8">
+          <form className="mt-8" onSubmit={handleSubmit}>
             <div className="space-y-5">
               <div>
                 <label
@@ -102,20 +124,14 @@ const SignUp = () => {
                 </div>
               </div>
               <div>
-                <button
-                  type="button"
-                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
-                >
+                <button className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80">
                   Create Account <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
             </div>
           </form>
           <div className="mt-3 space-y-3">
-            <button
-              type="button"
-              className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
-            >
+            <button className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none">
               <span className="mr-2 inline-block">
                 <svg
                   className="h-6 w-6 text-rose-500"
@@ -128,10 +144,7 @@ const SignUp = () => {
               </span>
               Sign up with Google
             </button>
-            <button
-              type="button"
-              className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
-            >
+            <button className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none">
               <span className="mr-2 inline-block">
                 <svg
                   className="h-6 w-6 text-[#2563EB]"

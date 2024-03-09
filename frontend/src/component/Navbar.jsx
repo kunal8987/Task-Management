@@ -9,12 +9,12 @@ const menuItems = [
     href: "/",
   },
   {
-    name: "About",
-    href: "#",
+    name: "All-Task",
+    href: "/task",
   },
   {
-    name: "Contact",
-    href: "#",
+    name: "About",
+    href: "/about",
   },
 ];
 
