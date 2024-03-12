@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PrivateRoutes from "./PrivateRoutes";
-import Task from "../pages/Task";
+import Task from "../pages/task/Task";
 const AllRoutes = () => {
   return (
     <>
