@@ -3,6 +3,7 @@ import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import logo from "../Asset/Logo.jpeg";
 import { Link } from "react-router-dom";
 import Dropdown from "./DropDown";
+import "./Navbar.css";
 const menuItems = [
   {
     name: "Home",
@@ -25,7 +26,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="relative w-full bg-white border-solid border-2 border-black">
+    <div className=" w-full top-0 sticky bg-white border-solid border-2 nav-gradient border-black">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <span>
@@ -51,7 +52,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="hidden space-x-2 lg:block">
-        <Dropdown/>
+          <Dropdown />
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
@@ -101,7 +102,7 @@ const Navbar = () => {
                   </nav>
                 </div>
                 <div className="mt-2 space-y-2">
-                 <Dropdown/>
+                  <Dropdown />
                 </div>
               </div>
             </div>
